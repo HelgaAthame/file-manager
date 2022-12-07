@@ -12,6 +12,9 @@ import { addFile } from './addFile.js';
 import { renameFile } from './renameFile.js';
 import { copyFile } from './copyFile.js';
 import { deleteFile } from './deleteFile.js';
+import { moveFile } from './moveFile.js';
+import { osInfo } from './osInfo.js';
+import { calcHash } from './calcHash.js'
 
 let somePath = homedir().toString();
 
@@ -46,10 +49,15 @@ export const processData = async (data) => {
 
   } else if(data.match(/mv .+/i)) {
     const pathFile = data.slice(3);
-    await copyFile(pathFile, somePath);
-    //await deleteFile(pathFile.split(' ')[0], somePath);
+    await moveFile(pathFile, somePath);
 
-  }else {
+  } else if(data.match(/os .+/i)) {
+    osInfo(data);
+
+  } else if(data.match(/hash .+/i)) {
+    await calcHash(data, somePath);
+
+  } else {
     await rl.output.write(`Invalid input\n`);
   }
 

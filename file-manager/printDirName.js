@@ -1,5 +1,5 @@
-const { stdin, stdout } = process;
+import { rl } from "./prompt.js";
 
 export const printDirName = (dirName) => {
-  stdout.write(`\nYou are currently in ${dirName}\n`);
+  rl.output.write(`\nYou are currently in ${dirName}\n`);
 }
