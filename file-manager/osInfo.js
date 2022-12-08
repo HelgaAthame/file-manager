@@ -9,7 +9,7 @@ export const osInfo = (data) => {
       break;
     case '--cpus':
       let cpusArr = cpus();
-      rl.output.write( `${cpusArr.length} cpus: \n` );
+      rl.output.write( `\n${cpusArr.length} cpus: \n` );
       cpusArr.forEach((el) => {
         rl.output.write( `model: ${el.model} \n` );
         rl.output.write( `clock rate: ${+el.speed/1000} GHz\n\n` );

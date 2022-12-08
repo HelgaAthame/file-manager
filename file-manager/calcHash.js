@@ -17,6 +17,7 @@ export const calcHash = async (data, path) => {
       }
       hash.update(data);
       rl.output.write(hash.digest('hex'));
+      rl.output.write(`\n`);
     });
   })
   .catch(() => rl.output.write('Operation failed\n'));
