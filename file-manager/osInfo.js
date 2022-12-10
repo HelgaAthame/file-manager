@@ -1,7 +1,8 @@
 import { rl } from './prompt.js';
 import { EOL, cpus, homedir, userInfo, arch } from 'os';
+import { printDirName } from './printDirName.js';
 
-export const osInfo = (data) => {
+export const osInfo = (data, defDirect) => {
   const info = data.slice(3);
   switch (info) {
     case '--EOL':
@@ -27,4 +28,5 @@ export const osInfo = (data) => {
     default:
       rl.output.write( 'Invalid input\n' );
   }
+  printDirName(defDirect);
 }

@@ -54,7 +54,7 @@ export const processData = async (data) => {
     await moveFile(pathFile, somePath);
 
   } else if(data.match(/^os .+/i)) {
-    osInfo(data);
+    osInfo(data, somePath);
 
   } else if(data.match(/^hash .+/i)) {
     await calcHash(data, somePath);
@@ -69,7 +69,5 @@ export const processData = async (data) => {
     await rl.output.write(`Invalid input\n`);
   }
 
-  printDirName(somePath);
   return;
-  //npm run start -- --username=Olga
 }

@@ -14,7 +14,7 @@ export const prompt = (username) => {
     process.exit();
   });
   process.on('exit', () => {
-    output.write(`Thank you for using File Manager, ${username}, goodbye!`);
+    output.write(`\nThank you for using File Manager, ${username}, goodbye!\n\n`);
   });
 
 }
