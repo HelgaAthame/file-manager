@@ -44,7 +44,7 @@ await access(resolve(absoluteFilePath), constants.R_OK | constants.W_OK)
 
               if (stats.isFile()) {
                 rl.output.write('Operation failed\n');
-                printDirName(defaultPath);
+                printDirName(defPath);
               }
               if (stats.isDirectory()) {
 
@@ -57,16 +57,16 @@ await access(resolve(absoluteFilePath), constants.R_OK | constants.W_OK)
                     rs.on('end', () => printDirName(defPath));
                     rs.on('error', (err) => {
                       rl.output.write('Operation failed\n');
-                      printDirName(defaultPath);
+                      printDirName(defPath);
                     });
                     ws.on('error', (err) => {
                       rl.output.write('Operation failed\n');
-                      printDirName(defaultPath);
+                      printDirName(defPath);
                     });
                   }
                   if (stats.isDirectory()) {
                     rl.output.write('Operation failed\n');
-                    printDirName(defaultPath);
+                    printDirName(defPath);
                   }
                 })
 
