@@ -67,6 +67,7 @@ export const processData = async (data) => {
 
   } else {
     await rl.output.write(`Invalid input\n`);
+    printDirName(somePath);
   }
 
   return;

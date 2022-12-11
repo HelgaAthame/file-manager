@@ -5,6 +5,7 @@ import { pathAbsolutize } from './pathAbsolutize.js';
 import { access, constants } from 'fs/promises';
 import { rl } from './prompt.js';
 import { printDirName } from './printDirName.js';
+import { stat } from 'fs';
 
 export const decompress = async (data, defaultPath) => {
   let newData = data.slice(11);
@@ -42,10 +43,40 @@ export const decompress = async (data, defaultPath) => {
               printDirName(defaultPath);
             })
             .catch(() => {
-              const rs = createReadStream(resolve(absoluteFilePath));
+              stat(absoluteNewDirPath, (err, stats) => {
+
+                if (stats.isFile()) {
+                  rl.output.write('Operation failed333\n');
+                  printDirName(defaultPath);
+                }
+                if (stats.isDirectory()) {
+
+                  stat(absoluteFilePath, (err, stats) => {
+
+                    if (stats.isFile()) {
+                      const rs = createReadStream(resolve(absoluteFilePath));
+                      const ws = createWriteStream(join(absoluteNewDirPath, basename(absoluteFilePath.slice(0, -3))));
+                      rs.pipe(brotliDecompress).pipe(ws);
+                      rs.on('end', () => printDirName(defaultPath));
+                      rs.on('error', (err) => {
+                        rl.output.write('Operation failed\n');
+                        printDirName(defaultPath);
+                      });
+                    }
+                    if (stats.isDirectory()) {
+                      rl.output.write('Operation failed444\n');
+                      printDirName(defaultPath);
+                    }
+                  })
+
+                }
+              })
+
+
+              /*const rs = createReadStream(resolve(absoluteFilePath));
               const ws = createWriteStream(join(absoluteNewDirPath, basename(absoluteFilePath.slice(0, -3))));
               rs.pipe(brotliDecompress).pipe(ws);
-              rs.on('end', () => printDirName(defaultPath));
+              rs.on('end', () => printDirName(defaultPath));*/
             });
           })
           .catch((err) => {

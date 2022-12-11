@@ -29,14 +29,21 @@ try {
   }
   let absolutePath = pathAbsolutize(filePath, defPath);
 
-  stat(resolve(absolutePath), async (err) => {
+  stat(resolve(absolutePath), async (err, stats) => {
     if (err) {
       rl.output.write(`Operation failed\n`);
       printDirName(defPath);
       return;
     } else {
-      await rename(resolve(absolutePath), join(dirname(absolutePath), newName));
+      if (stats.isFile()) {
+        await rename(resolve(absolutePath), join(dirname(absolutePath), newName));
+        printDirName(defPath);
+      } else {
+        rl.output.write(`Invalid input\n`);
       printDirName(defPath);
+      return;
+      }
+
     }
   });
 } catch (e) {

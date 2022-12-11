@@ -1,5 +1,5 @@
-import * as fs from 'fs';
-import * as crypto from 'crypto';
+import { readFile } from 'fs';
+import { createHash } from 'crypto';
 import { resolve } from 'path';
 import { pathAbsolutize } from './pathAbsolutize.js';
 import { rl } from './prompt.js';
@@ -14,18 +14,19 @@ export const calcHash = async (data, path) => {
   }
 
   let absolutePath = pathAbsolutize(pathFile, path);
-  const hash = crypto.createHash('sha256');
+  const hash = createHash('sha256');
   await access(resolve(absolutePath), constants.R_OK | constants.W_OK)
   .then(async () => {
-    fs.readFile(resolve(absolutePath), (err, data) => {
-      if (err) {
+    readFile(resolve(absolutePath), (err, data) => {
+      if (err || !data) {
         rl.output.write('Operation failed\n');
         printDirName(path);
+      } else {
+        hash.update(data);
+        rl.output.write(hash.digest('hex'));
+        rl.output.write(`\n`);
+        printDirName(path);
       }
-      hash.update(data);
-      rl.output.write(hash.digest('hex'));
-      rl.output.write(`\n`);
-      printDirName(path);
     });
   })
   .catch(() => {

@@ -4,6 +4,7 @@ import { createReadStream, createWriteStream } from 'fs';
 import { pathAbsolutize } from './pathAbsolutize.js';
 import { access, constants } from 'fs/promises';
 import { printDirName } from './printDirName.js';
+import { stat } from 'fs';
 
 export const copyFile = async (newData, defPath) => {
 try {
@@ -38,10 +39,44 @@ await access(resolve(absoluteFilePath), constants.R_OK | constants.W_OK)
             printDirName(defPath)
           })
           .catch(() => {
-            const rs = createReadStream(resolve(absoluteFilePath));
+            //
+            stat(absoluteNewDirPath, (err, stats) => {
+
+              if (stats.isFile()) {
+                rl.output.write('Operation failed\n');
+                printDirName(defaultPath);
+              }
+              if (stats.isDirectory()) {
+
+                stat(absoluteFilePath, (err, stats) => {
+
+                  if (stats.isFile()) {
+                    const rs = createReadStream(resolve(absoluteFilePath));
+                    const ws = createWriteStream(join(absoluteNewDirPath, basename(absoluteFilePath)));
+                    rs.pipe(ws);
+                    rs.on('end', () => printDirName(defPath));
+                    rs.on('error', (err) => {
+                      rl.output.write('Operation failed\n');
+                      printDirName(defaultPath);
+                    });
+                    ws.on('error', (err) => {
+                      rl.output.write('Operation failed\n');
+                      printDirName(defaultPath);
+                    });
+                  }
+                  if (stats.isDirectory()) {
+                    rl.output.write('Operation failed\n');
+                    printDirName(defaultPath);
+                  }
+                })
+
+              }
+            })
+            //
+            /*const rs = createReadStream(resolve(absoluteFilePath));
             const ws = createWriteStream(join(absoluteNewDirPath, basename(absoluteFilePath)));
             rs.pipe(ws);
-            rs.on('end', () => printDirName(defPath));
+            ws.on('end', () => printDirName(defPath));*/
           });
         })
         .catch((err) => {
