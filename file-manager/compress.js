@@ -2,7 +2,7 @@ import { createReadStream, createWriteStream } from 'fs';
 import { resolve, join, basename } from 'path';
 import { createBrotliCompress } from 'zlib';
 import { pathAbsolutize } from './pathAbsolutize.js';
-import { access, constants, appendFile } from 'fs/promises';
+import { access, constants } from 'fs/promises';
 import { rl } from './prompt.js';
 import { printDirName } from './printDirName.js';
 import { stat } from 'fs';
