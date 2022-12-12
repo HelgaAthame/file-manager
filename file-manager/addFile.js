@@ -12,13 +12,13 @@ if ((fileName.startsWith(`"`) || fileName.startsWith(`'`)) && (fileName.endsWith
 try {
   await access(join(directoryName, fileName), constants.R_OK | constants.W_OK)
   .then(async () => {
-    rl.output.write(`File already exists in ${directoryName}\n`);
+    rl.output.write(`Operation failed\n`);
     printDirName(directoryName);
   })
   .catch(async (err) => {
     await appendFile(join(directoryName, fileName), '', (error) => {
       if (error) {
-        rl.output.write('Operation failed');
+        rl.output.write(`Operation failed\n`);
       }
     })
     .then(async () => {
@@ -28,7 +28,7 @@ try {
   });
 
 } catch (e) {
-  console.log(`Invalid input`);
+  console.log(`Operation failed`);
   printDirName(directoryName);
 }
 

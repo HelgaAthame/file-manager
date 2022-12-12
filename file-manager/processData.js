@@ -26,7 +26,10 @@ export const processData = async (data) => {
     somePath = await up(somePath);
 
   } else if (data.match(/^cd .+/i)) {
-    somePath = await cd(data, somePath);
+    const tempPath = await cd(data, somePath);
+    if (tempPath) {
+      somePath = tempPath;
+    }
 
   } else if (data.match(/^ls/i)) {
     await filesInFolder(somePath);

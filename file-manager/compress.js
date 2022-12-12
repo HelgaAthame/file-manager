@@ -38,28 +38,28 @@ export const compress = async (data, defaultPath) => {
     .then(async () => {
         await access(resolve(absoluteNewDirPath), constants.R_OK | constants.W_OK)
           .then(async () => {
+
             await access(join(absoluteNewDirPath, basename(`${absoluteFilePath}.br`)), constants.R_OK | constants.W_OK)
             .then(() => {
               rl.output.write('Operation failed\n');
               printDirName(defaultPath);
             })
             .catch(() => {
-
               stat(absoluteNewDirPath, (err, stats) => {
-
                 if (stats.isFile()) {
                   rl.output.write('Operation failed\n');
                   printDirName(defaultPath);
                 }
                 if (stats.isDirectory()) {
-
                   stat(absoluteFilePath, (err, stats) => {
-
                     if (stats.isFile()) {
                       const rs = createReadStream(resolve(absoluteFilePath));
                       const ws = createWriteStream(join(absoluteNewDirPath, basename(`${absoluteFilePath}.br`)));
                       rs.pipe(brotli).pipe(ws);
-                      rs.on('end', () => printDirName(defaultPath));
+                      console.log('bbb');
+                      rs.on('end', () => {
+                        printDirName(defaultPath);
+                      });
                       rs.on('error', (err) => {
                         rl.output.write('Operation failed\n');
                         printDirName(defaultPath);
