@@ -2,7 +2,7 @@ import { createReadStream, createWriteStream } from 'fs';
 import { resolve, join, basename } from 'path';
 import { createBrotliCompress } from 'zlib';
 import { pathAbsolutize } from './pathAbsolutize.js';
-import { access, constants } from 'fs/promises';
+import { access, constants, appendFile } from 'fs/promises';
 import { rl } from './prompt.js';
 import { printDirName } from './printDirName.js';
 import { stat } from 'fs';
@@ -56,7 +56,6 @@ export const compress = async (data, defaultPath) => {
                       const rs = createReadStream(resolve(absoluteFilePath));
                       const ws = createWriteStream(join(absoluteNewDirPath, basename(`${absoluteFilePath}.br`)));
                       rs.pipe(brotli).pipe(ws);
-                      console.log('bbb');
                       rs.on('end', () => {
                         printDirName(defaultPath);
                       });

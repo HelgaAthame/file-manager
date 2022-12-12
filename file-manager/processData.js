@@ -37,35 +37,35 @@ export const processData = async (data) => {
   } else if (data.match(/^cat .+/i)) {
     await cat(data, somePath);
 
-  } else if(data.match(/^add .+/i)) {
+  } else if (data.match(/^add .+/i)) {
     const fileName = data.slice(4);
     await addFile(fileName, somePath);
 
-  } else if(data.match(/^rn .+/i)) {
+  } else if (data.match(/^rn .+/i)) {
     await renameFile(data, somePath);
 
-  } else if(data.match(/^cp .+/i)) {
+  } else if (data.match(/^cp .+/i)) {
     const newData = data.slice(3);
     await copyFile(newData, somePath);
 
-  } else if(data.match(/^rm .+/i)) {
+  } else if (data.match(/^rm .+/i)) {
     const pathToFile = data.slice(3);
     await deleteFile(pathToFile, somePath);
 
-  } else if(data.match(/^mv .+/i)) {
+  } else if (data.match(/^mv .+/i)) {
     const pathFile = data.slice(3);
     await moveFile(pathFile, somePath);
 
-  } else if(data.match(/^os .+/i)) {
+  } else if (data.match(/^os .+/i)) {
     osInfo(data, somePath);
 
-  } else if(data.match(/^hash .+/i)) {
+  } else if (data.match(/^hash .+/i)) {
     await calcHash(data, somePath);
 
-  } else if(data.match(/^compress .+/i)) {
+  } else if (data.match(/^compress .+/i)) {
     await compress(data, somePath);
 
-  } else if(data.match(/^decompress .+/i)) {
+  } else if (data.match(/^decompress .+/i)) {
     await decompress(data, somePath);
 
   } else {

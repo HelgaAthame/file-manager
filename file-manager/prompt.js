@@ -5,7 +5,7 @@ export const rl = createInterface({ input, output });
 
 export const prompt = (username) => {
   rl.on('line', async (data) => {
-    if (data.toString().match(/exit/i)) {
+    if (data.toString().match(/\.exit/i)) {
       process.exit();
     }
     await processData(data);
