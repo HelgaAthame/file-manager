@@ -1,0 +1,16 @@
+{
+  "name": "file-manager",
+  "version": "1.0.0",
+  "description": "CLI file manager",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node file-manager/index.js"
+  },
+  "author": "Olga Khmaruk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlreadyBored/node-nodejs-basics/issues"
+  }
+}
