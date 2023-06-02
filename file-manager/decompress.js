@@ -14,6 +14,8 @@ export const decompress = async (data, defaultPath) => {
     let pathToFile, pathToDestination;
     if (/\"\s+\"/.test(newData)) {
       [ pathToFile, pathToDestination ] = newData.slice(1, -1).split(/\"\s+\"/);
+    } else if (/\'\s+\'/.test(newData)) {
+      [ pathToFile, pathToDestination ] = newData.slice(1, -1).split(/\'\s+\'/);
     } else {
       [ pathToFile, pathToDestination ] = newData.split(' ');
       if ((pathToFile.startsWith(`"`) || pathToFile.startsWith(`'`)) && (pathToFile.endsWith(`"`) || pathToFile.endsWith(`'`))) {

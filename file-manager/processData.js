@@ -22,7 +22,7 @@ let somePath = homedir().toString();
 
 export const processData = async (data) => {
 
-  if (data.match(/^up/i)) {
+  if (data.match(/^\s*up\s*$/i)) {
     somePath = await up(somePath);
 
   } else if (data.match(/^cd .+/i)) {
@@ -31,10 +31,10 @@ export const processData = async (data) => {
       somePath = tempPath;
     }
 
-  } else if (data.match(/^ls/i)) {
+  } else if (data.match(/^\s*ls\s*$/i)) {
     await filesInFolder(somePath);
 
-  } else if (data.match(/^cat .+/i)) {
+  } else if (data.match(/^\s*cat .+/i)) {
     await cat(data, somePath);
 
   } else if (data.match(/^add .+/i)) {

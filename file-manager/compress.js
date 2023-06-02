@@ -9,12 +9,14 @@ import { stat } from 'fs';
 
 export const compress = async (data, defaultPath) => {
   let newData = data.slice(9);
-
+  console.log(newData);
   try {
 
     let pathToFile, pathToDestination;
     if (/\"\s+\"/.test(newData)) {
       [ pathToFile, pathToDestination ] = newData.slice(1, -1).split(/\"\s+\"/);
+    } else if (/\'\s+\'/.test(newData)) {
+      [ pathToFile, pathToDestination ] = newData.slice(1, -1).split(/\'\s+\'/);
     } else {
       [ pathToFile, pathToDestination ] = newData.split(' ');
       if ((pathToFile.startsWith(`"`) || pathToFile.startsWith(`'`)) && (pathToFile.endsWith(`"`) || pathToFile.endsWith(`'`))) {
@@ -72,11 +74,6 @@ export const compress = async (data, defaultPath) => {
 
                 }
               })
-
-              /*const rs = createReadStream(resolve(absoluteFilePath));
-              const ws = createWriteStream(join(absoluteNewDirPath, basename(`${absoluteFilePath}.br`)));
-              rs.pipe(brotli).pipe(ws);
-              rs.on('end', () => printDirName(defaultPath));*/
             });
           })
           .catch((err) => {
